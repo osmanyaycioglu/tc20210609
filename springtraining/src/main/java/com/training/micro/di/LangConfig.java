@@ -5,11 +5,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 import com.training.micro.config.SpeechConfig;
 
+import a.b.c.MyLibAConfig;
+
 @Configuration
+@Import(MyLibAConfig.class)
+@PropertySource("classpath:newprop.properties")
 public class LangConfig {
 
     @Autowired

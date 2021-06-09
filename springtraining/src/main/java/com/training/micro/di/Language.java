@@ -1,6 +1,7 @@
 package com.training.micro.di;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,7 +27,13 @@ public class Language {
 
 
     @PostConstruct
-    public void name() {
+    public void init() {
+        System.out.println("INIT");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("DESTROY");
     }
 
     public void talk() {
