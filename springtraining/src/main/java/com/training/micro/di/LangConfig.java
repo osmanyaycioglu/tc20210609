@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
@@ -16,6 +17,7 @@ import a.b.c.MyLibAConfig;
 @Configuration
 @Import(MyLibAConfig.class)
 @PropertySource("classpath:newprop.properties")
+@Profile("dev")
 public class LangConfig {
 
     @Autowired
@@ -30,9 +32,20 @@ public class LangConfig {
     @Value("#{speechConfig.getLanguage()}")
     private String       langFromConfigBean;
 
+
+    //    @Autowired
+    //    @Qualifier("str1")
+    //    private String       myStr;
+
+    @Bean(name = "str1")
+    public String strTest() {
+        return "String Bean";
+    }
+
     @Bean
     @Qualifier("DYNAMIC")
     public ISpeech spCreate() {
+        System.out.println("DEV CONFIG...");
         System.out.println(this.sc);
         switch (this.langFromConfigBean) {
             case "eng":
