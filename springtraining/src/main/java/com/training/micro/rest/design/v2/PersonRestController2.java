@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ public class PersonRestController2 {
     @Autowired
     private PersonService ps;
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/add")
     public String add(@Validated @RequestBody final Person person) {
         PersonStatus personStatusLoc = person.getPersonStatus();
@@ -51,6 +53,7 @@ public class PersonRestController2 {
     }
 
     @GetMapping("/get")
+    @PreAuthorize("hasAnyRole('ADMIN','VIEWER')")
     public Person get(@NotNull @RequestParam("perid") final Long personId) {
         return this.ps.get(personId);
     }
