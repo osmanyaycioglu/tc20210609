@@ -1,5 +1,7 @@
 package com.training.micro.service;
 
+import java.util.Set;
+
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.training.micro.data.PersonStorage;
+import com.training.micro.rest.Address;
 import com.training.micro.rest.Person;
+import com.training.micro.rest.PersonStatus;
 
 @Service
 public class PersonService {
@@ -28,7 +32,13 @@ public class PersonService {
     }
 
     public Person get(@NotNull @RequestParam("perid") final Long personId) {
-        return this.personStorage.get(personId);
+        Person personLoc = this.personStorage.get(personId);
+        PersonStatus personStatusLoc = personLoc.getPersonStatus();
+        Set<Address> addrsLoc = personLoc.getAddrs();
+        for (Address addressLoc : addrsLoc) {
+            System.out.println(addressLoc);
+        }
+        return personLoc;
     }
 
 }

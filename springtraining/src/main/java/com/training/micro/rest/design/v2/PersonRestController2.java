@@ -1,5 +1,7 @@
 package com.training.micro.rest.design.v2;
 
+import java.util.Set;
+
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.training.micro.rest.Address;
 import com.training.micro.rest.Person;
+import com.training.micro.rest.PersonStatus;
+import com.training.micro.rest.Phone;
 import com.training.micro.service.PersonService;
 
 @RestController
@@ -25,6 +30,18 @@ public class PersonRestController2 {
 
     @PostMapping("/add")
     public String add(@Validated @RequestBody final Person person) {
+        PersonStatus personStatusLoc = person.getPersonStatus();
+        if (personStatusLoc != null) {
+            personStatusLoc.setPerson(person);
+        }
+        Set<Address> addrsLoc = person.getAddrs();
+        for (Address addressLoc : addrsLoc) {
+            addressLoc.setPerson(person);
+        }
+        Set<Phone> persaonsLoc = person.getPhones();
+        for (Phone addressLoc : persaonsLoc) {
+            addressLoc.setPerson(person);
+        }
         return this.ps.add(person);
     }
 
